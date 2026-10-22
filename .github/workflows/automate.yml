@@ -18,5 +18,8 @@ jobs:
           key: ${{ secrets.LINODE_SSH_KEY }}
           script: |
             cd /opt/clickmart/Django_deploy
-            git pull origin main
-            docker compose up --build -d
+            git fetch origin main
+            git reset --hard origin/main
+            docker compose down
+            docker compose up --build -d --remove-orphans
+            docker image prune -f
